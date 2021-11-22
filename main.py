@@ -136,8 +136,47 @@ class PyList:
             
     def sort(self):
         pass
-        
-                
+    def swap(self, index1, index2):
+      if index1 >= self.numItems:
+        raise IndexError("PyList index out of range")
+      if index2 >= self.numItems:
+        raise IndexError("PyList index out of range")
+      if index1 == index2:
+        return
+
+
+      item = self[index1]
+      self[index1] = self[index2]
+      self[index2] = item
+
+    def bubbleSort(self):
+      while not self.sorted():
+        for i in range(self.numItems-1):
+          if self[i] > self[i+1]:
+            self.swap(i,i+1)
+    def maxIndex(self,last=-1):
+        if last < 0:
+            last = self.numItems + last
+        index = 0
+        for i in range(last + 1):
+            if self[i] > self[index]:
+                index = i
+        return index
+    def insertionSort(self):
+      subLstLen = self.numItems
+      for i in list(range(self.numItems))[::-1]:
+        maxI = self.maxIndex(i)
+        maxE = self[maxI]
+        del self[maxI]
+        self.insert(i,maxE)
+        print(self)
+      return self
+
+    def sorted(self):
+      for i in range(self.numItems-1):
+        if self[i]>self[i+1]:
+           return False
+      return True           
 def main():
     lst = PyList()
     
@@ -216,11 +255,6 @@ def main():
         
     print(lst)
     print(lst4)
-    
+
 if __name__ == "__main__":
-    main()
-                
-            
-            
-        
-            
+    pass
