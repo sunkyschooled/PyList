@@ -1,3 +1,5 @@
+import time
+import random
 class PyList:
     def __init__(self,contents=[], size=10):
         # The contents allows the programmer to construct a list with
@@ -27,18 +29,18 @@ class PyList:
             return
         raise IndexError("PyList assignment index out of range")
     
-    def insert(self,i,e):
+    def insert(self,index,item):
         if self.numItems == self.size:
             self.__makeroom()
            
-        if i < self.numItems:
-            for n in range(self.numItems-1, i-1,-1):
+        if index < self.numItems:
+            for n in range(self.numItems-1, index-1,-1):
                 self.items[n+1] = self.items[n]
             self.numItems += 1
-            self.items[i] = e
+            self.items[index] = item
             return
         else:
-            self.append(e)
+            self.append(item)
             return
             
     def currentAppendCount(self):
@@ -163,13 +165,11 @@ class PyList:
                 index = i
         return index
     def insertionSort(self):
-      subLstLen = self.numItems
       for i in list(range(self.numItems))[::-1]:
         maxI = self.maxIndex(i)
         maxE = self[maxI]
         del self[maxI]
         self.insert(i,maxE)
-        print(self)
       return self
 
     def sorted(self):
@@ -177,6 +177,27 @@ class PyList:
         if self[i]>self[i+1]:
            return False
       return True           
+
+    def merge(self,other):
+      merger= []
+      PyMerger = PyList(merger)
+      for i in range(self.numItems + other.numItems):
+        if (self.numItems-1) < i:
+          PyMerger.append(other[i])
+        elif (other.numItems-1) < i:
+          PyMerger.append(self[i])
+        else:
+          if self.items[i] < other.items[i]:
+            PyMerger.append(self.items[i])
+            other.insert(0,0)
+          else:
+            PyMerger.append(other[i])
+            self.insert(0,0)
+      return PyMerger
+
+
+      
+      
 def main():
     lst = PyList()
     
@@ -258,3 +279,20 @@ def main():
 
 if __name__ == "__main__":
     pass
+def reverseTest():
+  f = open("random.csv", "w")
+  lhst = []
+  for i in range(1,1001):
+    lhst.append(int(1001-i))
+    lesht = PyList(lhst)
+    thime = time.thread_time()
+    lesht.insertionSort()
+    thime = time.thread_time()-thime
+    f.write("{},{}\n".format(i,thime))
+    print(i)
+  f.close()
+lyest = [1,2,3,4,5,6,7,8,9]
+ljest = [0,3,5,6,7,8.5,9.1,13]
+lyest2 = PyList(lyest)
+ljest2 = PyList(ljest)
+print(lyest2.merge(ljest2))
